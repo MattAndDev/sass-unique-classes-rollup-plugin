@@ -1,6 +1,6 @@
 # sass-unique-classes-rollup-plugin
 
-This plugin iis entirely focused on doing exactly three things:
+This plugin is entirely focused on doing exactly three things:
 
 - compiles `.s(c|a)ss)` imports
 - create unique class names
