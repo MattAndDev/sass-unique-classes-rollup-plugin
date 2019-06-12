@@ -1,16 +1,28 @@
 const { name } = require('./package.json')
-const { join, dirname } = require('path')
+const { join, dirname, resolve } = require('path')
+const { existsSync } = require('fs')
 const { renderSync } = require('node-sass')
 const csstree = require('css-tree')
+
+
+const addExtname = (path) => path.match('.s(a|c)ss$') ? path : `${path}.scss`
 
 module.exports = function myExample () {
   return {
     name,
-    // always consider the importer as source of truth for resolving
-    resolveId (source, importer) {
+    async resolveId (source, importer) {
       if (source.match(/.*\.scss/)) {
-        const path = join(dirname(importer), source)
-        return path
+        // try to resolve from local
+        const local = join(dirname(importer), source)
+        if (await existsSync(local)) {
+          return local
+        }
+        // try as dependency
+        const dependency = join(process.cwd(), './node_modules', source)
+        if (await existsSync(dependency)) {
+          return dependency
+        }
+        // let it fall trough
       }
       return null
     },
@@ -23,19 +35,18 @@ module.exports = function myExample () {
         // might be still buggy
         const compiled = await renderSync({
           data: code,
-          includePaths: [process.cwd()],
           importer: function (url, prev, done) {
-            // assume ~ is for process.cwd()/node_modules
+            let resolved = ''
             if (url.match(/^~.*/)) {
-              const dep = url.replace(/~/, './node_modules/')
-              const file = join(process.cwd(), dep)
-              return { file }
+              resolved = join(process.cwd(), url.replace(/~/, './node_modules/'))
+              resolved = addExtname(resolved)
+              if (existsSync(resolved)) return {file: resolved}
             }
-            // stdin is passed directly by rollup
-            // falling back to the original id passed by the transform
             if (prev === 'stdin') {
-              const file = join(dirname(id), url)
-              return { file }
+              resolved = addExtname(join(dirname(id), url))
+              if (existsSync(resolved)) return {file: resolved}
+              resolved = addExtname(join(dirname(id), '_' + url))
+              if (existsSync(resolved)) return {file: resolved}
             }
           }
         })
@@ -59,7 +70,7 @@ module.exports = function myExample () {
             }
           }
         })
-        // ugly but fastes way to escape quotes
+        // ugly but fastest way to escape quotes
         return 'export default {\nraw: `' + csstree.generate(ast) + '`,\nmap:' + JSON.stringify(map) + '}'
       }
     }

@@ -1,6 +1,6 @@
 {
   "name": "sass-unique-classes-rollup-plugin",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -12,6 +12,10 @@
     "unique class",
     "css modules"
   ],
+  "repository": {
+    "type" : "git",
+    "url" : "https://github.com/MattAndDev/sass-unique-classes-rollup-plugin"
+  },
   "author": {
     "name": "Matteo Maronati",
     "email": "me@mattinthe.net",
