@@ -18,7 +18,6 @@ module.exports = function myExample () {
     async transform (code, id) {
       // if matches scss:
       if (id.match(/.*\.scss/)) {
-
         // compiles sass sync
         // the importer is used to try and guess better what to include
         // might be still buggy
@@ -26,7 +25,7 @@ module.exports = function myExample () {
           data: code,
           includePaths: [process.cwd()],
           importer: function (url, prev, done) {
-            // assume ~ is for process.cwd()/node_modules 
+            // assume ~ is for process.cwd()/node_modules
             if (url.match(/^~.*/)) {
               const dep = url.replace(/~/, './node_modules/')
               const file = join(process.cwd(), dep)
@@ -42,7 +41,6 @@ module.exports = function myExample () {
         })
         // get css
         const css = compiled.css.toString()
-
         // p.o.c. generate unique id
         const ast = csstree.parse(css)
         const map = {}
