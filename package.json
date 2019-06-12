@@ -1,0 +1,35 @@
+{
+  "name": "sass-unique-classes-rollup-plugin",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "lint": "standard"
+  },
+  "keywords": [
+    "rollup",
+    "plugin",
+    "unique class",
+    "css modules"
+  ],
+  "author": {
+    "name": "Matteo Maronati",
+    "email": "me@mattinthe.net",
+    "url": "https://github.com/MattAndDev"
+  },
+  "license": "ISC",
+  "dependencies": {
+    "css-tree": "^1.0.0-alpha.29",
+    "node-sass": "^4.12.0"
+  },
+  "devDependencies": {
+    "husky": "^2.4.1",
+    "standard": "^12.0.1"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run lint",
+      "pre-push": "npm run lint"
+    }
+  }
+}
