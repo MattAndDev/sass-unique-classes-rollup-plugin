@@ -1,6 +1,7 @@
 const { name } = require('./package.json')
 const { join, dirname } = require('path')
 const { existsSync } = require('fs')
+const crypto = require('crypto')
 
 const {
   createUniqueClassNames,
@@ -8,7 +9,11 @@ const {
   prefixAndMinify
 } = require('./utils')
 
-module.exports = function myExample () {
+const defaultIdGenerator = (classname) => {
+  return crypto.randomBytes(7).toString('hex')
+}
+
+module.exports = function sassUniqueClasses ({ generateUniqueName = false } = {}) {
   return {
     name,
     async resolveId (source, importer) {
@@ -29,7 +34,10 @@ module.exports = function myExample () {
       // if matches scss:
       if (id.match(/.*\.scss/)) {
         const compiled = await compileSassSync(code, id)
-        const { map, raw } = await createUniqueClassNames(compiled)
+        const uniqueFn = generateUniqueName || defaultIdGenerator
+        const { map, raw } = await createUniqueClassNames(compiled, uniqueFn)
+        console.log(map);
+        
         const pref = await prefixAndMinify(raw)
         return 'export default {\nraw: ' + JSON.stringify(pref) + ',\nmap:' + JSON.stringify(map) + '}'
       }

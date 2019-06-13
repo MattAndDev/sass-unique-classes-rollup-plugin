@@ -5,7 +5,6 @@ const postcss = require('postcss')
 const csstree = require('css-tree')
 const { join, dirname } = require('path')
 const { existsSync } = require('fs')
-const crypto = require('crypto')
 
 const prefixAndMinify = async (css) => {
   const res = await postcss([ autoprefixer, cssnano ]).process(css).then(result => {
@@ -42,15 +41,14 @@ const compileSassSync = async (sass = '', source) => {
 
 const cache = {}
 
-const createUniqueClassNames = async (css) => {
+const createUniqueClassNames = async (css, uniqueFn) => {
   const ast = csstree.parse(css)
   const map = {}
   // simple walk and replace
   csstree.walk(ast, function (node) {
     if (node.type === 'ClassSelector') {
-      // do replace
-      const id = 'flix-' + crypto.randomBytes(3).toString('hex')
       const name = node.name
+      const id = uniqueFn(node.name)
       if (cache[name]) {
         node.name = cache[name]
         map[name] = cache[name]
