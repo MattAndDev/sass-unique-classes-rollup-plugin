@@ -36,8 +36,6 @@ module.exports = function sassUniqueClasses ({ generateUniqueName = false } = {}
         const compiled = await compileSassSync(code, id)
         const uniqueFn = generateUniqueName || defaultIdGenerator
         const { map, raw } = await createUniqueClassNames(compiled, uniqueFn)
-        console.log(map);
-        
         const pref = await prefixAndMinify(raw)
         return 'export default {\nraw: ' + JSON.stringify(pref) + ',\nmap:' + JSON.stringify(map) + '}'
       }
