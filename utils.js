@@ -40,6 +40,8 @@ const compileSassSync = async (sass = '', source) => {
   return compiled.css.toString()
 }
 
+const cache = {}
+
 const createUniqueClassNames = async (css) => {
   const ast = csstree.parse(css)
   const map = {}
@@ -47,14 +49,15 @@ const createUniqueClassNames = async (css) => {
   csstree.walk(ast, function (node) {
     if (node.type === 'ClassSelector') {
       // do replace
-      const id = String.fromCharCode(97 + Math.floor(Math.random() * 26)) +
-        crypto.randomBytes(3).toString('hex')
+      const id = 'flix-' + crypto.randomBytes(3).toString('hex')
       const name = node.name
-      if (map[name]) {
-        node.name = id
+      if (cache[name]) {
+        node.name = cache[name]
+        map[name] = cache[name]
       }
-      if (!map[name]) {
-        map[node.name] = id
+      if (!map[name] && !cache[name]) {
+        map[name] = id
+        cache[name] = id
         node.name = id
       }
     }

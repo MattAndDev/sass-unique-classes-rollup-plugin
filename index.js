@@ -31,7 +31,7 @@ module.exports = function myExample () {
         const compiled = await compileSassSync(code, id)
         const { map, raw } = await createUniqueClassNames(compiled)
         const pref = await prefixAndMinify(raw)
-        return 'export default {\nraw: `' + pref + '`,\nmap:' + JSON.stringify(map) + '}'
+        return 'export default {\nraw: ' + JSON.stringify(pref) + ',\nmap:' + JSON.stringify(map) + '}'
       }
     }
   }
