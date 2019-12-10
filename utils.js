@@ -7,7 +7,7 @@ const { join, dirname } = require('path')
 const { existsSync } = require('fs')
 
 const prefixAndMinify = async (css) => {
-  const res = await postcss([ autoprefixer, cssnano ]).process(css).then(result => {
+  const res = await postcss([autoprefixer, cssnano]).process(css).then(result => {
     result.warnings().forEach(warn => {
       console.warn(warn.toString())
     })
