@@ -10,3 +10,14 @@ it will always export an object with two properties:
 
 `raw` the compiled, transformed, minimized source
 `map` object where keys are original classNames, values the unique ids
+
+
+## options
+
+### `generateUniqueName`
+
+Function to manipulate css classes after compilation for unique css-module-alike name mapping. 
+
+### `prependData`
+
+String, pre-pended to every scss file compiled  

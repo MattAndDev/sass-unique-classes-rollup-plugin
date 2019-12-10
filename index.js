@@ -13,7 +13,7 @@ const defaultIdGenerator = (classname) => {
   return crypto.randomBytes(7).toString('hex')
 }
 
-module.exports = function sassUniqueClasses ({ generateUniqueName = false } = {}) {
+module.exports = function sassUniqueClasses ({ generateUniqueName = false, prependData = '' } = {}) {
   return {
     name,
     async resolveId (source, importer) {
@@ -33,7 +33,7 @@ module.exports = function sassUniqueClasses ({ generateUniqueName = false } = {}
     async transform (code, id) {
       // if matches scss:
       if (id.match(/.*\.scss/)) {
-        const compiled = await compileSassSync(code, id)
+        const compiled = await compileSassSync(`${prependData}${code}`, id)
         const uniqueFn = generateUniqueName || defaultIdGenerator
         const { map, raw } = await createUniqueClassNames(compiled, uniqueFn)
         const pref = await prefixAndMinify(raw)
