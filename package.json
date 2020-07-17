@@ -1,6 +1,6 @@
 {
   "name": "sass-unique-classes-rollup-plugin",
-  "version": "0.0.6",
+  "version": "0.0.8",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -23,15 +23,15 @@
   },
   "license": "ISC",
   "dependencies": {
-    "autoprefixer": "^9.7.3",
-    "css-tree": "^1.0.0-alpha.29",
+    "autoprefixer": "^9.8.5",
+    "css-tree": "^1.0.0-alpha.39",
     "cssnano": "^4.1.10",
-    "node-sass": "^4.13.0",
-    "postcss": "^7.0.24"
+    "node-sass": "^4.14.1",
+    "postcss": "^7.0.32"
   },
   "devDependencies": {
-    "husky": "^3.1.0",
-    "standard": "^14.3.1"
+    "husky": "^4.2.5",
+    "standard": "^14.3.4"
   },
   "husky": {
     "hooks": {
