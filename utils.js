@@ -3,7 +3,7 @@ const autoprefixer = require('autoprefixer')
 const cssnano = require('cssnano')
 const postcss = require('postcss')
 const csstree = require('css-tree')
-const { join, dirname } = require('path')
+const { join, dirname, basename } = require('path')
 const { existsSync } = require('fs')
 
 const prefixAndMinify = async (css) => {
@@ -32,6 +32,8 @@ const compileSassSync = async (sass = '', source) => {
         resolved = addExtname(join(dirname(source), url))
         if (existsSync(resolved)) return { file: resolved }
         resolved = addExtname(join(dirname(source), '_' + url))
+        if (existsSync(resolved)) return { file: resolved }
+        resolved = addExtname(join(dirname(source), dirname(url), `_${basename(url)}`))
         if (existsSync(resolved)) return { file: resolved }
       }
     }
