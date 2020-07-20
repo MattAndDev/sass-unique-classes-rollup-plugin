@@ -4,7 +4,7 @@ This plugin is entirely focused on doing exactly three things:
 
 - compiles `.s(c|a)ss)` imports
 - create unique class names
-- run autoprefixer & minifier
+- run postcss  plugins
 
 it will always export an object with two properties:
 
@@ -21,3 +21,7 @@ Function to manipulate css classes after compilation for unique css-module-alike
 ### `prependData`
 
 String, pre-pended to every scss file compiled  
+
+### `postcssPlugins`
+
+Array, array of plugins  to  be passed to postcss

@@ -40,7 +40,7 @@ module.exports = function sassUniqueClasses ({
         const compiled = await compileSassSync(`${prependData}${code}`, id)
         const uniqueFn = generateUniqueName || defaultIdGenerator
         const { map, raw } = await createUniqueClassNames(compiled, uniqueFn)
-        const pref = await prefixAndMinify(raw)
+        const pref = await prefixAndMinify(postcssPlugins, raw)
         return 'export default {\nraw: ' + JSON.stringify(pref) + ',\nmap:' + JSON.stringify(map) + '}'
       }
     }
