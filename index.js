@@ -13,7 +13,11 @@ const defaultIdGenerator = (classname) => {
   return crypto.randomBytes(7).toString('hex')
 }
 
-module.exports = function sassUniqueClasses ({ generateUniqueName = false, prependData = '' } = {}) {
+module.exports = function sassUniqueClasses ({
+  generateUniqueName = false,
+  prependData = '',
+  postcssPlugins = []
+} = {}) {
   return {
     name,
     async resolveId (source, importer) {

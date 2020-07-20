@@ -1,13 +1,11 @@
 const { renderSync } = require('node-sass')
-const autoprefixer = require('autoprefixer')
-const cssnano = require('cssnano')
 const postcss = require('postcss')
 const csstree = require('css-tree')
 const { join, dirname, basename } = require('path')
 const { existsSync } = require('fs')
 
-const prefixAndMinify = async (css) => {
-  const res = await postcss([autoprefixer, cssnano]).process(css).then(result => {
+const prefixAndMinify = async (postcssPlugins, css) => {
+  const res = await postcss(postcssPlugins).process(css).then(result => {
     result.warnings().forEach(warn => {
       console.warn(warn.toString())
     })
